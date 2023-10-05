@@ -34,7 +34,5 @@ def test_add_and_get_reaction():
     response = client.get(f"/get-reaction/{session_id}")
     print(response.json())
     assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0] == reaction_data
-
-# More tests can be added as per various scenarios
+    assert len(response.json()) == 4
+    assert response.json() == reaction_data

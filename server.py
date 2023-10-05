@@ -32,6 +32,12 @@ sessions = {}
 app = FastAPI()
 
 
+def get_current_reaction(session_id):
+    current_index = sessions[session_id]["index"]
+    sessions[session_id]["index"] += 1
+    return sessions[session_id]['reactions'][current_index]
+
+
 def generate_session_id(length: int = 6):
     """
     Generate a unique session ID of uppercase letters and digits.
@@ -60,7 +66,7 @@ async def get_session():
     link = f"{APP_LINK}/{session_id}"
 
     # Initialize a queue for the session
-    sessions[session_id] = queue.Queue()
+    sessions[session_id] = {'index': 0, 'reactions': []}
     print(f'Started new session {session_id}')
 
     return {"session_id": session_id, "link": link}
@@ -70,14 +76,27 @@ async def get_session():
 async def add_reaction(reaction_data: Reaction):
     try:
         session_id = reaction_data.sessionId
-        sessions[session_id].put(reaction_data)
+        sessions[session_id]['reactions'].append(reaction_data)
         print(f"Add reaction:{reaction_data.reaction}")
         return {"status": "success", "message": "Reaction added successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/get-reaction/{session_id}", response_model=list[Reaction])
+@app.get("/get-session-data/{session_id}", response_model=list[Reaction])
+async def get_session_data(session_id: str):
+    try:
+        reactions = sessions.get(session_id)
+        if not reactions:
+            print(f'Failed to retrieve reactions for session {session_id}')
+            raise HTTPException(status_code=404, detail="Session not found")
+        print(f'Successfully retrieved reactions for session {session_id}')
+        return list(reactions)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/get-reaction/{session_id}", response_model=Reaction)
 async def get_reaction(session_id: str):
     try:
         reactions = sessions.get(session_id)
@@ -85,6 +104,6 @@ async def get_reaction(session_id: str):
             print(f'Failed to retrieve reactions for session {session_id}')
             raise HTTPException(status_code=404, detail="Session not found")
         print(f'Successfully retrieved reactions for session {session_id}')
-        return list(reactions.queue)
+        return get_current_reaction(session_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
