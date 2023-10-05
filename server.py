@@ -83,17 +83,6 @@ async def add_reaction(reaction_data: Reaction):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/get-session-data/{session_id}", response_model=list[Reaction])
-async def get_session_data(session_id: str):
-    try:
-        reactions = sessions.get(session_id)
-        if not reactions:
-            print(f'Failed to retrieve reactions for session {session_id}')
-            raise HTTPException(status_code=404, detail="Session not found")
-        print(f'Successfully retrieved reactions for session {session_id}')
-        return list(reactions)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/get-reaction/{session_id}", response_model=Reaction)
