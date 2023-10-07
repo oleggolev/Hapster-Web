@@ -110,3 +110,20 @@ async def get_reaction(session_id: str):
         return reactions
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/get-session-data/{session_id}")
+async def get_session_data(session_id: str):
+    try:
+        # Retrieve session data
+        session_data = sessions.get(session_id)
+
+        # Handle case where session data does not exist
+        if not session_data:
+            raise HTTPException(status_code=404, detail="Session not found")
+
+        # Return session data
+        return {"status": "success", "data": session_data}
+    except Exception as e:
+        # Handle unexpected errors
+        raise HTTPException(status_code=500, detail=str(e))
