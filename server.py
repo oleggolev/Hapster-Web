@@ -49,8 +49,8 @@ app.add_middleware(
 
 def get_current_reaction(session_id):
     current_index = sessions[session_id]["index"]
-    sessions[session_id]["index"] += 1
-    return sessions[session_id]['reactions'][current_index]
+    sessions[session_id]["index"] = len(sessions[session_id]["reactions"])
+    return sessions[session_id]['reactions'][current_index:]
 
 
 def generate_session_id(length: int = 6):
@@ -98,14 +98,15 @@ async def add_reaction(reaction_data: Reaction):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/get-reaction/{session_id}", response_model=Reaction)
+@app.get("/get-reaction/{session_id}", response_model=list[Reaction])
 async def get_reaction(session_id: str):
     try:
-        reactions = sessions.get(session_id)
+        reactions = get_current_reaction(session_id)
         if not reactions:
             print(f'Failed to retrieve reactions for session {session_id}')
             raise HTTPException(status_code=404, detail="Session not found")
         print(f'Successfully retrieved reactions for session {session_id}')
-        return get_current_reaction(session_id)
+        print(reactions)
+        return reactions
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
