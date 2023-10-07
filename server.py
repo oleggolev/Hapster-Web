@@ -4,6 +4,7 @@ import string
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 
 class Reaction(BaseModel):
@@ -30,6 +31,20 @@ APP_LINK = "http://localhost:8000"
 sessions = {}
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000/"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_current_reaction(session_id):
@@ -81,8 +96,6 @@ async def add_reaction(reaction_data: Reaction):
         return {"status": "success", "message": "Reaction added successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
 
 
 @app.get("/get-reaction/{session_id}", response_model=Reaction)
