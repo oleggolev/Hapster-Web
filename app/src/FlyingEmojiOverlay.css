@@ -1,0 +1,31 @@
+/* FlyingEmojiOverlay.css */
+
+.emoji-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-end; /* Align emojis at the bottom of the screen */
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through emojis */
+}
+
+.emoji {
+  position: absolute;
+  animation-duration: 2.5s; /* Adjust the animation duration as needed */
+  animation-timing-function: ease-in-out;
+  opacity: 0;
+  animation-name: fly-up; /* Use a single animation name */
+}
+
+@keyframes fly-up {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-500px); /* Adjust the distance the emoji travels */
+    opacity: 0;
+  }
+}

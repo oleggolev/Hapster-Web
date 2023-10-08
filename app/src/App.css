@@ -1,0 +1,51 @@
+/* Default styles for larger screens (e.g., desktop) */
+.button-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+/* Media query for smaller screens (e.g., iPad or mobile) */
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column;
+    display: flex;
+    flex: 1
+  }
+}
+
+.popup {
+  position: fixed;
+  bottom: -70px; /* Start at the bottom */
+  left: 0;
+  right: 0;
+  background-color: lightcoral; /* Light red background color */
+  color: white; /* Font color */
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  height: 50px; /* Set the height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: bottom 0.3s ease-in-out; /* Add transition effect */
+}
+
+.popup.show {
+  bottom: 0px; /* Slide up to 20px from the bottom */
+}
+
+.enter {
+  font-size: 20px;
+  width: 310px;
+  height: 60px;
+  border: transparent;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
+.enter:active {
+  background-color: #555; /* Slightly darker color when clicked */
+}
