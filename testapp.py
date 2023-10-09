@@ -139,3 +139,25 @@ def test_session_and_reactions():
     assert response.status_code == 200
     assert len(response.json()) == 2
     assert response.json() == reactions
+
+    # Test 6: End the session by sending the session_id as part of the URL
+    response = client.post(f"/end-session/{session_id}")
+
+    # Assert the response status code and content
+    assert response.status_code == 200
+    print(response.json())
+    assert response.json() == {"status": "success", "message": "Session ended"}
+
+    # Test 7: Attempt to add a reaction to the ended session
+    reaction_data = {
+        "reaction": 1,
+        "timeStamp": "2022-10-03T14:15:22Z",
+        "sessionId": session_id,
+        "userSessionId": "us12345"
+    }
+    response = client.post("/add-reaction/", json=reaction_data)
+
+    # Assert that the response status code is 400 and that the message indicates that the session doesn't exist
+    assert response.status_code == 200
+    assert response.json() == {"status": "success",
+                               "message": "session ended"}

@@ -81,7 +81,7 @@ async def get_session():
     link = f"{APP_LINK}/{session_id}"
 
     # Initialize a queue for the session
-    sessions[session_id] = {'index': 0, 'reactions': []}
+    sessions[session_id] = {'index': 0, 'reactions': [], 'active': True}
     print(f'Started new session {session_id}')
 
     return {"session_id": session_id, "link": link}
@@ -91,9 +91,24 @@ async def get_session():
 async def add_reaction(reaction_data: Reaction):
     try:
         session_id = reaction_data.sessionId
+        if not sessions.get(session_id):
+            return {"status": "success", "message": "session not found"}
+        elif not sessions.get(session_id)["active"]:
+            return {"status": "success", "message": "session ended"}
         sessions[session_id]['reactions'].append(reaction_data)
         print(f"Add reaction:{reaction_data.reaction}")
         return {"status": "success", "message": "Reaction added successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/end-session/{session_id}")
+async def end_session(session_id: str):
+    try:
+        if session_id not in sessions:
+            return {"status": "success", "message": "Session doesn't exist"}
+        sessions[session_id]["active"] = False
+        return {"status": "success", "message": "Session ended"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
