@@ -104,7 +104,7 @@ async def get_reaction(session_id: str):
         reactions = get_current_reaction(session_id)
         if not reactions:
             print(f'Failed to retrieve reactions for session {session_id}')
-            raise HTTPException(status_code=404, detail="Session not found")
+            return []
         print(f'Successfully retrieved reactions for session {session_id}')
         print(reactions)
         return reactions
