@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FaHandPaper, FaQuestionCircle, FaLightbulb } from 'react-icons/fa';
 import './FlyingEmojiOverlay.css';
 
 const FlyingEmojiOverlay = ({ emojiQueue, setEmojiQueue }) => {

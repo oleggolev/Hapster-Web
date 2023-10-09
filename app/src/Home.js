@@ -3,51 +3,100 @@ import './App.css';
 import Header from './Header';
 import Button from './Button';
 import { FaHandPaper, FaQuestionCircle, FaLightbulb } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
-import FlyingEmojiOverlay from './FlyingEmojiOverlay'; // Adjust the path accordingly
+import { useParams, useNavigate } from 'react-router-dom';
+import FlyingEmojiOverlay from './FlyingEmojiOverlay';
+import { css } from '@emotion/react';
+import { RingLoader } from 'react-spinners'; // Import the spinning circle component
 
 const generateUserId = () => {
-  // Check if the user ID already exists in localStorage
   let userId = localStorage.getItem('userId');
-
-  // If it doesn't exist, generate a new one and store it in localStorage
   if (!userId) {
     userId = Math.random().toString(36).substring(2, 15);
     localStorage.setItem('userId', userId);
   }
-
   return userId;
 };
 
-// Define the icon mapping
 const iconMapping = {
   1: <FaHandPaper />,
   2: <FaQuestionCircle />,
   3: <FaLightbulb />,
-  // Add more mappings as needed
 };
 
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 const Home = (props) => {
-  // Get the session ID from the URL
   const { session_id } = useParams();
   const [emojiQueue, setEmojiQueue] = useState([]);
-
-  // Generate a unique user ID
   const userId = generateUserId();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getSessionData = async () => {
+    try {
+      const response = await fetch(
+        `${props.serverurl}/get-session-data/${session_id}`
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getSessionData().then((data) => {
+      setTimeout(() => {
+        if (!session_id || !data || data.status !== 'success') {
+          navigate('/');
+        } else {
+          setIsLoading(false);
+        }
+      }, 1000); // Show loading indicator for 1 second
+    });
+  }, [session_id, navigate]);
+
+  if (isLoading) {
+    // Loading indicator style
+    const loadingStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      backgroundColor: '#333',
+      color: 'white',
+      flexDirection: 'column', // Center text vertically
+    };
+
+    return (
+      <div style={loadingStyle}>
+        <RingLoader
+          css={override}
+          color={'#3498db'}
+          size={60}
+          loading={isLoading}
+        />
+        <br></br>
+        <p>Attempting to join session...</p>
+      </div>
+    );
+  }
 
   const handleReactionClick = (reaction) => {
-    // Specify the correct URL of your server's add-reaction endpoint
-    const serverUrl = props.serverurl + '/add-reaction'; // Update with your server URL
+    const serverUrl = props.serverurl + '/add-reaction';
 
-    // Create the reaction data object
     const reactionData = {
       reaction: reaction,
       timeStamp: new Date().toISOString(),
-      sessionId: session_id, // Assuming you have session_id available
-      userSessionId: userId, // Assuming you have userId available
+      sessionId: session_id,
+      userSessionId: userId,
     };
 
-    // Perform a POST request to add the reaction
     fetch(serverUrl, {
       method: 'POST',
       headers: {
@@ -57,7 +106,6 @@ const Home = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response if needed
         console.log(data);
         console.log(reaction);
       })
@@ -65,9 +113,7 @@ const Home = (props) => {
         console.error('Error adding reaction:', error);
       });
 
-    // Get the corresponding icon component from the mapping
     const emoji = iconMapping[reaction];
-    // Pass the icon component to the overlay
     const emojisToAdd = Array(20).fill(emoji);
     setEmojiQueue((prevQueue) => [...prevQueue, ...emojisToAdd]);
   };
@@ -95,8 +141,6 @@ const Home = (props) => {
           onClick={() => handleReactionClick(3)}
         />
       </div>
-
-      {/* Render the FlyingEmojiOverlay component */}
       <FlyingEmojiOverlay
         emojiQueue={emojiQueue}
         setEmojiQueue={setEmojiQueue}
