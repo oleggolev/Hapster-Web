@@ -13,7 +13,9 @@ const InputPage = (props) => {
       const response = await fetch(
         `${props.serverurl}/get-session-data/${sessionId}`
       );
+      console.log('hi');
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
       console.error('Error fetching session data:', error);
