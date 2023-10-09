@@ -35,12 +35,13 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "http://127.0.0.1:8000/"
+    "http://127.0.0.1:8000/",
+    "https://haptic-excel.onrender.com/"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -81,7 +82,7 @@ async def get_session():
     link = f"{APP_LINK}/{session_id}"
 
     # Initialize a queue for the session
-    sessions[session_id] = {'index': 0, 'reactions': []}
+    sessions[session_id] = {'index': 0, 'reactions': [], 'active': True}
     print(f'Started new session {session_id}')
 
     return {"session_id": session_id, "link": link}
@@ -91,9 +92,24 @@ async def get_session():
 async def add_reaction(reaction_data: Reaction):
     try:
         session_id = reaction_data.sessionId
+        if not sessions.get(session_id):
+            return {"status": "success", "message": "session not found"}
+        elif not sessions.get(session_id)["active"]:
+            return {"status": "success", "message": "session ended"}
         sessions[session_id]['reactions'].append(reaction_data)
         print(f"Add reaction:{reaction_data.reaction}")
         return {"status": "success", "message": "Reaction added successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/end-session/{session_id}")
+async def end_session(session_id: str):
+    try:
+        if session_id not in sessions:
+            return {"status": "success", "message": "Session doesn't exist"}
+        sessions[session_id]["active"] = False
+        return {"status": "success", "message": "Session ended"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -104,7 +120,7 @@ async def get_reaction(session_id: str):
         reactions = get_current_reaction(session_id)
         if not reactions:
             print(f'Failed to retrieve reactions for session {session_id}')
-            raise HTTPException(status_code=404, detail="Session not found")
+            return []
         print(f'Successfully retrieved reactions for session {session_id}')
         print(reactions)
         return reactions
