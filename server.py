@@ -92,6 +92,8 @@ async def get_session():
 async def add_reaction(reaction_data: Reaction):
     try:
         session_id = reaction_data.sessionId
+        # Add current timestamp to the reaction data
+        reaction_data.timeStamp = datetime.utcnow()
         if not sessions.get(session_id):
             return {"status": "success", "message": "session not found"}
         elif not sessions.get(session_id)["active"]:
