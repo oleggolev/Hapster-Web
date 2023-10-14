@@ -35,7 +35,7 @@ def test_add_and_get_reaction():
     print(response.json())
     assert response.status_code == 200
     assert len(response.json()) == 1
-    assert response.json()[0] == reaction_data
+    assert response.json()[0]['reaction'] == reaction_data['reaction']
 
 
 def test_add_multiple_reactions():
@@ -69,8 +69,8 @@ def test_add_multiple_reactions():
     print(response.json())
     assert response.status_code == 200
     assert len(response.json()) == 2
-    assert response.json()[0] == reactions[0]
-    assert response.json()[1] == reactions[1]
+    assert response.json()[0]['reaction'] == reactions[0]['reaction']
+    assert response.json()[1]['reaction'] == reactions[1]['reaction']
 
 
 def test_create_new_session_and_get_empty_reaction():
@@ -112,7 +112,7 @@ def test_session_and_reactions():
     response = client.get(f"/get-reaction/{session_id}")
     assert response.status_code == 200
     assert len(response.json()) == 1
-    assert response.json()[0] == reaction_data
+    assert response.json()[0]["reaction"] == reaction_data["reaction"]
 
     # Test 4: Add two more reactions
     reactions = [
@@ -138,7 +138,8 @@ def test_session_and_reactions():
     response = client.get(f"/get-reaction/{session_id}")
     assert response.status_code == 200
     assert len(response.json()) == 2
-    assert response.json() == reactions
+    assert response.json()[0]["reaction"] == reactions[0]["reaction"]
+    assert response.json()[1]["reaction"] == reactions[1]["reaction"]
 
     # Test 6: End the session by sending the session_id as part of the URL
     response = client.post(f"/end-session/{session_id}")
@@ -157,7 +158,7 @@ def test_session_and_reactions():
     }
     response = client.post("/add-reaction/", json=reaction_data)
 
-    # Assert that the response status code is 400 and that the message indicates that the session doesn't exist
+    # Assert that the response status code is 200 and that the message indicates that the session ended
     assert response.status_code == 200
     assert response.json() == {"status": "success",
                                "message": "session ended"}

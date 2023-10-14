@@ -105,7 +105,7 @@ async def add_reaction(reaction_data: Reaction):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/end-session/{session_id}")
+@app.get("/end-session/{session_id}")
 async def end_session(session_id: str):
     try:
         if session_id not in sessions:
