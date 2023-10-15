@@ -95,39 +95,39 @@ async def add_reaction(reaction_data: Reaction):
         # Add current timestamp to the reaction data
         reaction_data.timeStamp = datetime.utcnow()
         if not sessions.get(session_id):
-            return {"status": "success", "message": "session not found"}
+            return "session not found"
         elif not sessions.get(session_id)["active"]:
-            return {"status": "success", "message": "session ended"}
+            return "session ended"
         sessions[session_id]['reactions'].append(reaction_data)
         print(f"Add reaction:{reaction_data.reaction}")
-        return {"status": "success", "message": "Reaction added successfully"}
+        return "Reaction added successfully"
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/end-session/{session_id}")
 async def end_session(session_id: str):
-    try:
-        if session_id not in sessions:
-            return {"status": "success", "message": "Session doesn't exist"}
-        sessions[session_id]["active"] = False
-        return {"status": "success", "message": "Session ended"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    if session_id not in sessions:
+        print('Session {session_id} not found')
+        raise HTTPException(
+            status_code=404, detail=f'Session {session_id} not found')
+    sessions[session_id]["active"] = False
+    print('gets here')
+    return "Session ended"
 
 
 @app.get("/get-reaction/{session_id}", response_model=list[Reaction])
 async def get_reaction(session_id: str):
-    try:
+    if session_id in sessions and sessions[session_id]['active']:
         reactions = get_current_reaction(session_id)
         if not reactions:
-            print(f'Failed to retrieve reactions for session {session_id}')
+            print(f'No new reaction to retrieve {session_id}')
             return []
         print(f'Successfully retrieved reactions for session {session_id}')
         print(reactions)
         return reactions
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    raise HTTPException(
+        status_code=404, detail=f'Reactions not found for session {session_id}')
 
 
 @app.get("/get-session-data/{session_id}")
