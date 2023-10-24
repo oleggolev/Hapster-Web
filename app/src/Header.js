@@ -22,23 +22,48 @@ const LeaveSessionButton = styled(Link)`
   color: white;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
 
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const Header = ({ session_id }) => {
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Header = ({ session_id, homepage }) => {
   return (
     <HeaderWrapper>
-      {/* Conditionally apply a class for phones and iPads */}
       <div className="header-title">
         <Title>Haptic-Xcel</Title>
       </div>
       Session ID: {session_id}{' '}
-      <div>
-        <LeaveSessionButton to="/">Leave Session</LeaveSessionButton>
-      </div>
+      <Row>
+        {homepage ? (
+          <div>
+            <LeaveSessionButton
+              className="asdf"
+              to={`/${session_id}/reactions`}
+            >
+              Reaction Statistics
+            </LeaveSessionButton>
+          </div>
+        ) : (
+          <div>
+            <LeaveSessionButton to={`/${session_id}`}>
+              Student View
+            </LeaveSessionButton>
+          </div>
+        )}
+        <div> | </div>
+        <div>
+          <LeaveSessionButton to="/">Leave Session</LeaveSessionButton>
+        </div>
+      </Row>
     </HeaderWrapper>
   );
 };

@@ -120,7 +120,7 @@ const Home = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Header session_id={session_id} />
+      <Header session_id={session_id} homepage={true} />
       <div className="button-container">
         <Button
           color="#3498db"
