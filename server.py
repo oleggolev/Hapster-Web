@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
+import firestore_handler
 
 
 class Reaction(BaseModel):
@@ -112,8 +113,13 @@ async def end_session(session_id: str):
         raise HTTPException(
             status_code=404, detail=f'Session {session_id} not found')
     sessions[session_id]["active"] = False
-    print('gets here')
-    return "Session ended"
+    try:
+        firestore_handler.add_data(sessions[session_id]["data"]["reactions"])
+        print('added data to firebase')
+        return "Session ended"
+    except:
+        print('no data to add')
+        return "Session ended"
 
 
 @app.get("/get-reaction/{session_id}", response_model=list[Reaction])
