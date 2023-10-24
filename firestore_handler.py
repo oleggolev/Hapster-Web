@@ -13,33 +13,32 @@ db = firestore.client()
 
 def add_data(data_array):
     for i in range(len(data_array)):
-        data = data_array[i]
-        formatted_data = {
-            str(i): {"reaction": data['Reaction'], "timeStamp": data['TimeStamp'],
-                     "userSessionId": data['UserSessionId']}
-        }
+        data = data_array[i].model_dump()
+        formatted_data = {str(i): {"reaction": data['reaction'], "timeStamp": data['timeStamp'],
+                                   "userSessionId": data['userSessionId']}}
+
         try:
             db.collection(
-                "session-data").document(data["SessionId"]).update(formatted_data)
+                "session-data").document(data["sessionId"]).update(formatted_data)
         except:
             db.collection(
-                "session-data").document(data["SessionId"]).set(formatted_data)
+                "session-data").document(data["sessionId"]).set(formatted_data)
 
 
 # Test
 if __name__ == "__main__":
     sample_data = [
         {
-            "Reaction": 1,
-            "TimeStamp": "2023-10-24T12:00:00Z",
-            "UserSessionId": "user123",
-            "SessionId": "sessionA"
+            "reaction": 1,
+            "timeStamp": "2023-10-24T12:00:00Z",
+            "userSessionId": "user123",
+            "sessionId": "sessionA"
         },
         {
-            "Reaction": 5,
-            "TimeStamp": "2023-10-24T12:05:00Z",
-            "UserSessionId": "user456",
-            "SessionId": "sessionA"
+            "reaction": 5,
+            "timeStamp": "2023-10-24T12:05:00Z",
+            "userSessionId": "user456",
+            "sessionId": "sessionA"
         }
     ]
 

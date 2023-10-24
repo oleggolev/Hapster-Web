@@ -116,10 +116,10 @@ async def end_session(session_id: str):
     try:
         firestore_handler.add_data(sessions[session_id]["reactions"])
         print('added data to firebase')
-        return "Session ended"
+        return "Session ended, added data to firebase"
     except:
         print('no data to add')
-        return "Session ended"
+        return "Session ended, no data to add"
 
 
 @app.get("/get-reaction/{session_id}", response_model=list[Reaction])

@@ -145,7 +145,7 @@ def test_session_and_reactions():
     # Assert the response status code and content
     assert response.status_code == 200
     print(response.json())
-    assert response.json() == "Session ended"
+    assert response.json() == "Session ended, added data to firebase"
 
     # Test 7: Attempt to add a reaction to the ended session
     reaction_data = {
