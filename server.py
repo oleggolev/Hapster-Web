@@ -114,7 +114,7 @@ async def end_session(session_id: str):
             status_code=404, detail=f'Session {session_id} not found')
     sessions[session_id]["active"] = False
     try:
-        firestore_handler.add_data(sessions[session_id]["data"]["reactions"])
+        firestore_handler.add_data(sessions[session_id]["reactions"])
         print('added data to firebase')
         return "Session ended"
     except:
