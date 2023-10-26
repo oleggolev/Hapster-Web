@@ -49,17 +49,17 @@ const Header = ({ session_id, homepage }) => {
               className="asdf"
               to={`/${session_id}/reactions`}
             >
-              Reaction Statistics
+              Session Analytics
             </LeaveSessionButton>
           </div>
         ) : (
           <div>
             <LeaveSessionButton to={`/${session_id}`}>
-              Student View
+              Session Reactions
             </LeaveSessionButton>
           </div>
-        )}
-        <div> | </div>
+        )}{' '}
+        <div className="dividermenu"> | </div>
         <div>
           <LeaveSessionButton to="/">Leave Session</LeaveSessionButton>
         </div>

@@ -19,6 +19,23 @@ import {
   LineElement,
 } from 'chart.js';
 
+const plugin = {
+  id: 'increase-legend-spacing',
+  beforeInit: function (chart) {
+    // Get reference to the original fit function
+    const originalFit = chart.legend.fit;
+
+    // Override the fit function
+    chart.legend.fit = function () {
+      // Call the original function and bind the scope correctly
+      originalFit.call(this);
+
+      // Increase the height to add spacing
+      this.height += 20; // Adjust the value as needed
+    };
+  },
+};
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,7 +45,8 @@ ChartJS.register(
   Legend,
   ArcElement,
   PointElement,
-  LineElement
+  LineElement,
+  plugin
 );
 
 const iconMapping = {
@@ -100,7 +118,7 @@ const ReactionsPage = (props) => {
     const hours = Math.floor(minutes / 60);
 
     if (seconds < 60) {
-      return `${seconds} s${seconds === 1 ? '' : 's'} ago`;
+      return `${seconds} s ago`;
     } else if (minutes < 60) {
       return `${minutes} min${minutes === 1 ? '' : 's'} ago`;
     } else if (hours < 24) {
@@ -198,7 +216,7 @@ const ReactionsPage = (props) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'right',
+        display: false,
       },
     },
   };
@@ -275,38 +293,64 @@ const ReactionsPage = (props) => {
   });
 
   // Calculate the number of reactions per minute for the last ten minutes
-  const reactionsPerMinute = Array(10).fill(0);
-  reactionData[0].forEach((timestamp) => {
-    const then = new Date(timestamp);
-    then.setHours(then.getHours() - 4);
-    then.setSeconds(then.getSeconds() - 12);
-    const timeDiff = Date.now() - then;
-    const minutesAgo = Math.floor(timeDiff / (1000 * 60));
-    if (minutesAgo >= 0 && minutesAgo < 10) {
-      reactionsPerMinute[9 - minutesAgo]++;
-    }
-  });
+  const reactionsPerMinute = [
+    Array(10).fill(0),
+    Array(10).fill(0),
+    Array(10).fill(0),
+  ];
+  const reactionsPerMinuteTotal = Array(10).fill(0);
+
+  for (let x = 0; x <= 2; x++) {
+    reactionData[x].forEach((timestamp) => {
+      const then = new Date(timestamp);
+      then.setHours(then.getHours() - 4);
+      then.setSeconds(then.getSeconds() - 12);
+      const timeDiff = Date.now() - then;
+      const minutesAgo = Math.floor(timeDiff / (1000 * 60));
+      if (minutesAgo >= 0 && minutesAgo < 10) {
+        reactionsPerMinute[x][9 - minutesAgo]++;
+        reactionsPerMinuteTotal[9 - minutesAgo]++;
+      }
+    });
+  }
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    ArcElement,
+    PointElement,
+    LineElement
+  );
 
   // Create the Line chart data and options
   const lineChartDataLast10Minutes = {
     labels: generateTimeLabels(1), // Generate labels in "X min ago" format
     datasets: [
       {
-        label: 'Reaction 1',
-        data: reactionsPerMinute,
+        label: ' Hand-raise         ',
+        data: reactionsPerMinute[0],
         borderColor: '#3498db',
         fill: false,
       },
       {
-        label: 'Reaction 2',
-        data: reactionsPerMinute, // Use the same data for all reactions
+        label: ' Confused         ',
+        data: reactionsPerMinute[1], // Use the same data for all reactions
         borderColor: '#e74c3c',
         fill: false,
       },
       {
-        label: 'Reaction 3',
-        data: reactionsPerMinute, // Use the same data for all reactions
+        label: ' Interesting         ',
+        data: reactionsPerMinute[2], // Use the same data for all reactions
         borderColor: '#f1c40f',
+        fill: false,
+      },
+      {
+        label: ' Total',
+        data: reactionsPerMinuteTotal, // Use the same data for all reactions
+        borderColor: 'white',
         fill: false,
       },
     ],

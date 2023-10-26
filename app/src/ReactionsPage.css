@@ -87,7 +87,7 @@ ul li svg {
 }
 .bar-title {
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .reactions-title {
@@ -109,11 +109,11 @@ ul li svg {
   padding: 30px;
   padding-bottom: 50px;
   margin-top: 20px;
-  height: 40%;
+  height: 35%;
 }
 
 .minichart-title {
-  margin-top: 20px;
+  margin-top: 35px;
   font-size: 20px;
   font-weight: bold;
   color: white;
@@ -125,7 +125,7 @@ ul li svg {
   opacity: 0.8;
   width: 70%;
   padding: 30px;
-  padding-bottom: 50px;
+  padding-bottom: 70px;
   margin-top: 20px;
   height: 20%;
 }
@@ -230,6 +230,7 @@ ul li svg {
   justify-content: left;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 /* Style the scrollbar track */
 ::-webkit-scrollbar {
