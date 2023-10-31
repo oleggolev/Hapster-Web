@@ -50,11 +50,14 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    console.log('1');
     getSessionData().then((data) => {
       setTimeout(() => {
         if (!session_id || !data || data.status !== 'success') {
+          console.log('2');
           navigate('/');
         } else {
+          console.log('3');
           setIsLoading(false);
         }
       }, 1000); // Show loading indicator for 1 second
