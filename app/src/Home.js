@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Header';
 import Button from './Button';
-import { FaHandPaper, FaQuestionCircle, FaLightbulb } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import FlyingEmojiOverlay from './FlyingEmojiOverlay';
 import { css } from '@emotion/react';
@@ -18,9 +17,9 @@ const generateUserId = () => {
 };
 
 const iconMapping = {
-  1: <FaHandPaper />,
-  2: <FaQuestionCircle />,
-  3: <FaLightbulb />,
+  1: '✋',
+  2: '😭',
+  3: '😎',
 };
 
 const override = css`
@@ -50,11 +49,14 @@ const Home = (props) => {
   };
 
   useEffect(() => {
+    console.log('1');
     getSessionData().then((data) => {
       setTimeout(() => {
         if (!session_id || !data || data.status !== 'success') {
+          console.log('2');
           navigate('/');
         } else {
+          console.log('3');
           setIsLoading(false);
         }
       }, 1000); // Show loading indicator for 1 second
@@ -120,24 +122,24 @@ const Home = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Header session_id={session_id} />
+      <Header session_id={session_id} homepage={true} />
       <div className="button-container">
         <Button
           color="#3498db"
-          icon={<FaHandPaper />}
+          icon="✋"
           label="Hand-raise"
           onClick={() => handleReactionClick(1)}
         />
         <Button
           color="#e74c3c"
-          icon={<FaQuestionCircle />}
+          icon="😭"
           label="Confused"
           onClick={() => handleReactionClick(2)}
         />
         <Button
           color="#f1c40f"
-          icon={<FaLightbulb />}
-          label="Interesting"
+          icon="😎"
+          label="Confident"
           onClick={() => handleReactionClick(3)}
         />
       </div>
