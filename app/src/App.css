@@ -10,7 +10,7 @@
   .button-container {
     flex-direction: column;
     display: flex;
-    flex: 1
+    flex: 1;
   }
 }
 
@@ -38,6 +38,15 @@
 
 .enter {
   font-size: 20px;
+  width: 310px;
+  height: 60px;
+  border: transparent;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
+.agree {
   width: 310px;
   height: 60px;
   border: transparent;

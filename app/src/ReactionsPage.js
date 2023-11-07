@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './ReactionsPage.css'; // Add CSS styling for this page
 import { useParams } from 'react-router-dom';
 import Header from './Header';
-import { FaHandPaper, FaQuestionCircle, FaLightbulb } from 'react-icons/fa';
 import { BsSmartwatch } from 'react-icons/bs';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 
@@ -50,15 +49,15 @@ ChartJS.register(
 );
 
 const iconMapping = {
-  1: <FaHandPaper />,
-  2: <FaQuestionCircle />,
-  3: <FaLightbulb />,
+  1: '✋ ',
+  2: '😭 ',
+  3: '😎 ',
 };
 
 const wordMapping = {
   1: 'Hand-raise',
   2: 'Confused',
-  3: 'Interesting',
+  3: 'Confident',
 };
 
 const ReactionsPage = (props) => {
@@ -231,7 +230,7 @@ const ReactionsPage = (props) => {
   });
 
   const barChartData = {
-    labels: ['Hand-Raise', ' Confused', 'Interesting'],
+    labels: ['Hand-Raise', ' Confused', 'Confident'],
     datasets: [
       {
         label: 'Count of Reactions',
@@ -342,7 +341,7 @@ const ReactionsPage = (props) => {
         fill: false,
       },
       {
-        label: ' Interesting         ',
+        label: ' Confident         ',
         data: reactionsPerMinute[2], // Use the same data for all reactions
         borderColor: '#f1c40f',
         fill: false,

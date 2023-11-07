@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Header';
 import Button from './Button';
-import { FaHandPaper, FaQuestionCircle, FaLightbulb } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import FlyingEmojiOverlay from './FlyingEmojiOverlay';
 import { css } from '@emotion/react';
@@ -18,9 +17,9 @@ const generateUserId = () => {
 };
 
 const iconMapping = {
-  1: <FaHandPaper />,
-  2: <FaQuestionCircle />,
-  3: <FaLightbulb />,
+  1: '✋',
+  2: '😭',
+  3: '😎',
 };
 
 const override = css`
@@ -127,20 +126,20 @@ const Home = (props) => {
       <div className="button-container">
         <Button
           color="#3498db"
-          icon={<FaHandPaper />}
+          icon="✋"
           label="Hand-raise"
           onClick={() => handleReactionClick(1)}
         />
         <Button
           color="#e74c3c"
-          icon={<FaQuestionCircle />}
+          icon="😭"
           label="Confused"
           onClick={() => handleReactionClick(2)}
         />
         <Button
           color="#f1c40f"
-          icon={<FaLightbulb />}
-          label="Interesting"
+          icon="😎"
+          label="Confident"
           onClick={() => handleReactionClick(3)}
         />
       </div>
