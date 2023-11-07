@@ -2,27 +2,10 @@ import queue
 import random
 import string
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from datetime import datetime
+from model import Reaction
+
 from fastapi.middleware.cors import CORSMiddleware
 import firestore_handler
-
-
-class Reaction(BaseModel):
-    reaction: int
-    timeStamp: datetime
-    sessionId: str
-    userSessionId: str
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "Reaction": 1,
-                "TimeStamp": "2022-10-03T14:15:22Z",
-                "SessionId": "s12345",
-                "UserSessionId": "us12345"
-            }
-        }
 
 
 # Config
@@ -148,6 +131,19 @@ async def get_session_data(session_id: str):
 
         # Return session data
         return {"status": "success", "data": session_data}
+    except Exception as e:
+        # Handle unexpected errors
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/get-firebase-data/{session_id}")
+async def get_firebase_data(session_id: str):
+    try:
+        # Retrieve firebase session data
+        firebase_data = firestore_handler.get_data(sessionID=session_id)
+
+        # Return session data
+        return {"status": "success", "data": firebase_data}
     except Exception as e:
         # Handle unexpected errors
         raise HTTPException(status_code=500, detail=str(e))
