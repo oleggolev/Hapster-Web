@@ -55,6 +55,8 @@ const InputPage = (props) => {
     background: 'linear-gradient(to bottom, #3498db, #e74c3c, #f1c40f)', // Define your gradient colors here
   };
 
+  const isMobile = window.innerWidth <= 768; // Set the width condition as per your design
+
   return (
     <div>
       <Modal
@@ -68,18 +70,20 @@ const InputPage = (props) => {
             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Update the overlay as needed
           },
           content: {
-            margin: '80px', // Increase margin
-            paddingLeft: '120px', // Increase padding
-            paddingRight: '120px', // Increase padding
+            margin: isMobile ? '0' : '80px',
+            paddingLeft: isMobile ? '30px' : '120px',
+            paddingRight: isMobile ? '30px' : '120px',
             paddingTop: '50px', // Increase padding
             paddingBottom: '50px', // Increase padding
+            fontSize: isMobile ? '10px' : '16px',
           },
         }}
       >
         <center>
           <img
+            className="princeton"
             src="./princeton_logo.png" // Replace with the actual path/URL of the logo
-            style={{ width: '300px' }} // Adjust width and spacing as needed
+            style={{ width: isMobile ? '200px' : '300px' }} // Adjust width and spacing as needed
           />{' '}
         </center>
         <h2>Adult Consent Form</h2>

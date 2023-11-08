@@ -60,6 +60,10 @@ const Header = ({ session_id, homepage }) => {
           </div>
         )}{' '}
         <div className="dividermenu"> | </div>
+        <LeaveSessionButton to={`https://forms.gle/DnYAq58uvFDi3BNS8`}>
+          Student Survey
+        </LeaveSessionButton>
+        <div className="dividermenu"> | </div>
         <div>
           <LeaveSessionButton to="/">Leave Session</LeaveSessionButton>
         </div>

@@ -5,12 +5,25 @@
   flex: 1;
 }
 
+.agree {
+  width: 310px;
+  height: 60px;
+  border: transparent;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
 /* Media query for smaller screens (e.g., iPad or mobile) */
 @media (max-width: 768px) {
   .button-container {
     flex-direction: column;
     display: flex;
     flex: 1;
+  }
+
+  .agree {
+    width: 200px;
   }
 }
 
@@ -38,15 +51,6 @@
 
 .enter {
   font-size: 20px;
-  width: 310px;
-  height: 60px;
-  border: transparent;
-  border-radius: 5px;
-  background-color: #333;
-  color: white;
-}
-
-.agree {
   width: 310px;
   height: 60px;
   border: transparent;
