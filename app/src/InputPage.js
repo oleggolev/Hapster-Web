@@ -113,44 +113,42 @@ const InputPage = (props) => {
           participation at any time without penalty.
         </p>
         <p>
-          The purpose of the research: To explore how well just-in-time,
+          <strong>The purpose of the research:</strong> To explore how well just-in-time,
           low-friction visuo-vibrotactile feedback using an Apple Watch solves
           the problem of instructors’ delayed reactions to student feedback.
         </p>
         <p>
-          The expected duration of the subject's participation: Up to one
+          <strong>The expected duration of the subject's participation:</strong> Up to one
           80-minute session.
         </p>
         <p>
-          The procedures that the subject will be asked to follow in the
-          research: You will use our system during your regularly scheduled
-          lecture. One member of the research team will be present during the
-          class session to supervise the study and solve any system-related
-          issues as necessary. The system consists of an instructor-facing Apple
+          <strong>The procedures that the subject will be asked to follow in the
+          research:</strong> You will use our system during your regularly scheduled
+          lecture. The system consists of an instructor-facing Apple
           Watch application and a student-facing web application. You will use
           the web application to send three types of reactions to the
           instructor. Upon the conclusion of the class, you will answer a brief
           survey aimed to better understand your opinion of the system.
         </p>
         <p>
-          The reasonably foreseeable risks or discomforts to the subject as a
-          result of participation: Participants may be distracted or otherwise
-          not able to fully perform their role as a student in class.. All
+          <strong>The reasonably foreseeable risks or discomforts to the subject as a
+          result of participation:</strong> You may be distracted or otherwise
+          not able to fully perform their role as a student in class. All
           participation is voluntary and you may stop participating anytime. All
           feedback we collect is strictly confidential.
         </p>
         <p>
-          The benefits to the subject: While there are no direct benefits,
+          <strong>The benefits to the subject:</strong> While there are no direct benefits,
           results from this study may help instructors better assess student
           understanding of the material during lectures. Likewise, your feedback
           is valuable input for this system to be deployed at a later date as an
           independent product.
         </p>
         <p>
-          The alternative procedures, if any, that might be advantageous to the
-          subject: the alternative is not to participate, not to participate
-          will not have an effect on the student’s course grade, his or her
-          relationship with the professor, department, or University.
+          <strong>The alternative procedures, if any, that might be advantageous to the
+          subject:</strong> The alternative is not to participate, which will not have 
+          an effect on your course grade or relationship with the professor, 
+          department, or University.
         </p>
         <hr style={{ visibility: 'hidden' }} />
         <p>
@@ -172,13 +170,14 @@ const InputPage = (props) => {
           that will have access to your data.
         </p>
         <p>
-          <strong>Compensation: </strong> None.
+          <strong>Compensation: </strong> You will be entered into a class raffle 
+          for a $10 Amazon gift card, if you choose to do so.
         </p>
         <p>
           <strong>Who to contact with questions:</strong>
         </p>
         <p>
-          Principal investigator: Andrés Monroy-Hernández,
+          <strong>Principal investigator:</strong> Andrés Monroy-Hernández,
           andresmh@princeton.edu
         </p>
         <p>
@@ -205,6 +204,11 @@ const InputPage = (props) => {
           I do not waive any legal rights or release Princeton University or its
           agents from liability for negligence. I hereby give my consent to be
           the subject of the research.
+        </p>
+        <p>
+          I have read all the information provided on this form, am <strong>at 
+          least 18 years of age</strong>, and <strong>consent</strong> to participate 
+          in this study.
         </p>
         <br></br>
         <hr style={{ visibility: 'hidden' }} />
