@@ -90,6 +90,7 @@ const Home = (props) => {
   }
 
   const handleReactionClick = (reaction) => {
+    console.log('reaction');
     const serverUrl = props.serverurl + '/add-reaction';
 
     const reactionData = {

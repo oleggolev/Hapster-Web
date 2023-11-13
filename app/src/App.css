@@ -27,6 +27,19 @@
   }
 }
 
+.buttoniconrow {
+  display: flex;
+  direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttoniconcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .popup {
   position: fixed;
   bottom: -70px; /* Start at the bottom */
