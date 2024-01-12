@@ -39,7 +39,7 @@ const Header = ({ session_id, homepage }) => {
   return (
     <HeaderWrapper>
       <div className="header-title">
-        <Title>Haptic-Xcel</Title>
+        <Title>Hapster</Title>
       </div>
       Session ID: {session_id}{' '}
       <Row>

@@ -234,7 +234,7 @@ const InputPage = (props) => {
             marginBottom: '40px',
           }}
         >
-          Haptic-Xcel
+          Hapster
         </div>
         <input
           type="text"

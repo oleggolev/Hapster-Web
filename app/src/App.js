@@ -11,10 +11,10 @@ const App = () => {
   return (
     <div className="App">
       <Helmet>
-        <title>Haptic-Xcel</title>
+        <title>Hapster</title>
         <meta
           name="description"
-          content="Real-time haptic feedback for instructors"
+          content="Live haptic feedback for instructors"
         />
       </Helmet>
       <Router>
