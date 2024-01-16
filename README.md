@@ -1,2 +1,2 @@
-# HAPTIC-XCEL-webapp
-Haptic eXperiences for Continuous Engagement and Learning
+# Hapster Web App
+A web application that enables students to send live visuohaptic feedback to their instructors.
