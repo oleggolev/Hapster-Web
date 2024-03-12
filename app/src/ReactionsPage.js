@@ -87,7 +87,7 @@ const ReactionsPage = (props) => {
   useEffect(() => {
     if (reactions.length > 0) {
       const then = new Date(reactions[0].timeStamp);
-      then.setHours(then.getHours() - 5);
+      then.setHours(then.getHours() - 4);
       then.setSeconds(then.getSeconds());
       const timeDiff = Date.now() - then;
       setFirstReactionDate(formatDate(then));
@@ -98,7 +98,7 @@ const ReactionsPage = (props) => {
 
   const formatTime = (timestamp) => {
     const reactionTime = new Date(timestamp);
-    reactionTime.setHours(reactionTime.getHours() - 5);
+    reactionTime.setHours(reactionTime.getHours() - 4);
     reactionTime.setSeconds(reactionTime.getSeconds());
 
     const hours = reactionTime.getHours().toString().padStart(2, '0');
@@ -108,7 +108,7 @@ const ReactionsPage = (props) => {
 
   const formatTimeAgo = (timestamp) => {
     const then = new Date(timestamp);
-    then.setHours(then.getHours() - 5);
+    then.setHours(then.getHours() - 4);
     then.setSeconds(then.getSeconds());
 
     const timeDiff = Date.now() - then;
@@ -302,7 +302,7 @@ const ReactionsPage = (props) => {
   for (let x = 0; x <= 2; x++) {
     reactionData[x].forEach((timestamp) => {
       const then = new Date(timestamp);
-      then.setHours(then.getHours() - 5);
+      then.setHours(then.getHours() - 4);
       then.setSeconds(then.getSeconds());
       const timeDiff = Date.now() - then;
       const minutesAgo = Math.floor(timeDiff / (1000 * 60));
